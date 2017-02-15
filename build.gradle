@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
-version = '0.1'
+version = '0.3'
 
 def path = System.getProperty("user.dir")
 def srcDir = "${path}/src"
