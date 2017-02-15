@@ -1,0 +1,40 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '0.1'
+
+def path = System.getProperty("user.dir")
+def srcDir = "${path}/src"
+
+defaultTasks "watch", "build"
+
+task watch(type: Exec) {
+  inputs.dir srcDir
+  commandLine "true"
+
+  new ByteArrayOutputStream()
+}
+
+jar {
+  manifest {
+    attributes 'Implementation-Title': 'SkyScanner Business client',
+      'Implementation-Version': version
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile group: 'org.json', name: 'json', version: '20160810'
+  testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+uploadArchives {
+  repositories {
+    flatDir {
+      dirs 'repos'
+    }
+  }
+}
