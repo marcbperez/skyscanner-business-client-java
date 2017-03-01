@@ -1,12 +1,11 @@
-apply plugin: 'java'
+apply plugin: "java"
 
+defaultTasks "watch", "build"
 sourceCompatibility = 1.8
-version = '0.4'
+version = "0.4"
 
 def path = System.getProperty("user.dir")
 def srcDir = "${path}/src"
-
-defaultTasks "watch", "build"
 
 task watch(type: Exec) {
   inputs.dir srcDir
@@ -17,8 +16,8 @@ task watch(type: Exec) {
 
 jar {
   manifest {
-    attributes 'Implementation-Title': 'SkyScanner Business client',
-      'Implementation-Version': version
+    attributes "Implementation-Title": "SkyScanner Business Client",
+      "Implementation-Version": version
   }
 }
 
@@ -27,14 +26,14 @@ repositories {
 }
 
 dependencies {
-  compile group: 'org.json', name: 'json', version: '20160810'
-  testCompile group: 'junit', name: 'junit', version: '4.+'
+  compile group: "org.json", name: "json", version: "20160810"
+  testCompile group: "junit", name: "junit", version: "4.+"
 }
 
 uploadArchives {
   repositories {
     flatDir {
-      dirs 'repos'
+      dirs "repos"
     }
   }
 }
