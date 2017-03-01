@@ -2,7 +2,7 @@ apply plugin: "java"
 
 defaultTasks "watch", "build"
 sourceCompatibility = 1.8
-version = "0.4"
+version = "0.5"
 
 def path = System.getProperty("user.dir")
 def srcDir = "${path}/src"
