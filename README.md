@@ -16,7 +16,7 @@ distributions Gradle 3.3 can be installed via the following commands:
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:cwchien/gradle
 sudo apt-get update
-sudo apt-get install default-jdk gradle=3.3-0ubuntu1
+sudo apt-get install default-jdk gradle=3.4-0ubuntu1
 ```
 
 If you prefer to install Docker and docker-compose (highly recommended) refer to
@@ -42,11 +42,18 @@ built and tested every time a change is made. If all tests pass the compiled JAR
 will be placed under `build/libs`. Refer to the tests from the `src/test` folder
 for complete API usage and examples.
 
+```bash
+git clone https://github.com/marcbperez/skyscanner-business-client-java.git
+cd skyscanner-business-client-java.git
+sudo docker-compose up
+```
+
 ## Testing
 
 Tests will be executed by default every time the project is built. To run them
 manually start a new build or use Gradle's test task. A coverage report will be
-generated under `build/test-results/test/index.html`.
+generated under `build/test-results/test/index.html`. For a complete list of
+tasks including individual tests, check `gradle tasks`.
 
 ```bash
 gradle test
@@ -68,7 +75,7 @@ refer to the [CHANGELOG][changelog]. Only branches prefixed by *feature-*,
   - Fork the project.
   - Create your new branch: `git checkout -b feature-my-feature develop`
   - Commit your changes: `git commit -am 'Added my new feature.'`
-  - Push the branch: `git push -u origin feature-my-feature`
+  - Push the branch: `git push origin feature-my-feature`
   - Submit a pull request.
 
 ## Credits

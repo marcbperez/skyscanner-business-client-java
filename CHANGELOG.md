@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org).
 
+## 0.5.0 - 2017-03-01
+
+### Updated
+
+  - Upgraded Gradle to version 3.4.
+
 ## 0.4.0 - 2017-02-15
 
 ### Added
