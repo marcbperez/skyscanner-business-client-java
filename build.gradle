@@ -1,15 +1,51 @@
 apply plugin: "java"
 
-defaultTasks "watch", "build"
+defaultTasks "wrapper", "watch", "dependencies", "build", "testSpock"
 sourceCompatibility = 1.8
-version = "0.5"
+version = "0.5.0"
 
+def aptPackages = ["libspock-java"]
 def path = System.getProperty("user.dir")
 def srcDir = "${path}/src"
+def testDir = "${path}/test"
+
+task wrapper(type: Wrapper) {
+  description "Creates the project wrapper."
+  gradleVersion = "3.4.1"
+}
 
 task watch(type: Exec) {
-  inputs.dir srcDir
+  description "Watches for changes."
+  inputs.files(srcDir, testDir)
   commandLine "true"
+
+  new ByteArrayOutputStream()
+}
+
+task dependencies() {
+  description "Installs all dependencies."
+
+  dependsOn {
+    tasks.findAll { task ->
+      task.name.startsWith("dependencies") && !task.name.equals("dependencies")
+    }
+  }
+}
+
+task aptUpdate(type: Exec) {
+  description "Updates APT repository information."
+  workingDir path
+  commandLine "apt-get"
+  args "update"
+
+  new ByteArrayOutputStream()
+}
+
+task dependenciesApt(type: Exec, dependsOn: aptUpdate) {
+  description "Installs APT dependencies."
+  workingDir path
+  commandLine "apt-get"
+  args = ["install", "-y"] + aptPackages
 
   new ByteArrayOutputStream()
 }
@@ -35,5 +71,28 @@ uploadArchives {
     flatDir {
       dirs "repos"
     }
+  }
+}
+
+task testSpock() {
+  description "Runs all test cases."
+
+  dependsOn {
+    tasks.findAll { task ->
+      task.name.startsWith("testSpock") && !task.name.equals("testSpock")
+    }
+  }
+}
+
+fileTree(dir: "${testDir}", include: "**/*.groovy").each { File testFile ->
+  def fileName = testFile.getName().split("\\.")[0]
+
+  task "testSpock${fileName}"(type: Exec) {
+    description "Runs the ${fileName} case."
+    workingDir path
+    commandLine "groovy"
+    args "-cp", "/usr/share/java/spock-core.jar", testFile
+
+    new ByteArrayOutputStream()
   }
 }

@@ -8,56 +8,45 @@ date.
 
 ## Installation
 
-This projects uses Gradle (at least version 3.3) as its build system along with
-a Docker and docker-compose wrapper for continuous development. On Ubuntu Linux
-distributions Gradle 3.3 can be installed via the following commands:
+Start by downloading and building the project when necessary. The following
+commands will do the job on most Debian based Linux distributions.
 
 ```bash
-sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:cwchien/gradle
-sudo apt-get update
-sudo apt-get install default-jdk gradle=3.4-0ubuntu1
-```
-
-If you prefer to install Docker and docker-compose (highly recommended) refer to
-the [official instructions][install-docker-compose] or use the script from
-below, again for Ubuntu Linux distributions.
-
-```bash
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://apt.dockerproject.org/gpg | sudo apt-key add -
-sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"
-sudo apt-get update
-sudo apt-get install docker-engine
-curl -L "https://github.com/docker/compose/releases/download/1.10.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+git clone https://github.com/marcbperez/skyscanner-business-client-java
+cd skyscanner-business-client-java
+sudo ./gradlew
 ```
 
 ## Usage
 
-To build the sources run Gradle's main task from the project's root directory
-with `gradle` or via `sudo docker-compose up` if you are using the Docker
-wrapper. The second option will start a continuous build and updates will be
-built and tested every time a change is made. If all tests pass the compiled JAR
-will be placed under `build/libs`. Refer to the tests from the `src/test` folder
-for complete API usage and examples.
-
-```bash
-git clone https://github.com/marcbperez/skyscanner-business-client-java.git
-cd skyscanner-business-client-java.git
-sudo docker-compose up
-```
+After the installation process the compiled JAR will be placed under
+`build/libs`. Refer to the tests from the `src/test` folder for complete API
+usage and examples.
 
 ## Testing
 
-Tests will be executed by default every time the project is built. To run them
-manually start a new build or use Gradle's test task. A coverage report will be
-generated under `build/test-results/test/index.html`. For a complete list of
-tasks including individual tests, check `gradle tasks`.
+Test checks are executed automatically every time the project is built. Builds
+can be done remotely or continuously on a development context. For continuous
+integration and development use docker-compose. This is recommended to keep the
+system clean while the project is built every time the sources change.
 
 ```bash
-gradle test
+sudo docker-compose up
 ```
+
+For continuous integration and development without any dependencies use the
+Gradle wrapper. This is the best option if the wrapper is available and the
+Docker context is not valid. For a full list of tasks, see
+`sudo ./gradlew tasks --all`. For a CI cycle use `sudo ./gradlew --continuous`.
+
+For continuous integration and development without Docker or the project wrapper
+use Gradle directly. This will create the wrapper in case it is not present.
+Similar to the above, for a CI cycle use `sudo gradle --continuous`. Gradle
+3.4.1 is required for this to work. Plain Docker is also available for remote
+integration tasks and alike. Build the image with `sudo docker build .` and run
+a new container with it. Information on how to install Docker and docker-compose
+can be found in their [official page][install-docker-compose]. A similar
+installation guide is available [for Gradle][install-gradle].
 
 ## Troubleshooting
 
@@ -94,3 +83,4 @@ This project is licensed under the [Apache License Version 2.0][license].
 [license]: LICENSE
 [semver]: http://semver.org
 [install-docker-compose]: https://docs.docker.com/compose/install/
+[install-gradle]: https://gradle.org/install
